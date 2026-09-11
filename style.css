@@ -569,6 +569,7 @@ section {
     margin-bottom: 16px;
     line-height: 1.8;
     font-size: 1rem;
+    text-align: justify;
 }
 
 .skills {
@@ -1413,10 +1414,6 @@ body.light-mode .career-stat-number {
     color: #ffffff;
 }
 
-
-/* =========================================================
-   RESPONSIVE
-   ========================================================= */
 
 @media (max-width: 1024px) {
     .hero-container {
