@@ -81,19 +81,31 @@ function closeMobileMenu() {
 }
 
 function updateActiveNavLink() {
+    if (!sections.length || !navLinks.length) return;
+
+    const scrollPosition = window.scrollY;
+    const viewportHeight = window.innerHeight;
+    const documentHeight = document.documentElement.scrollHeight;
+
     let currentSection = "";
 
-    sections.forEach(section => {
-        const sectionTop = section.offsetTop - 120;
-        const sectionHeight = section.offsetHeight;
+    if (scrollPosition + viewportHeight >= documentHeight - 10) {
+        currentSection = sections[sections.length - 1].getAttribute("id");
+    } else {
+        const activationPoint = scrollPosition + 150;
 
-        if (
-            window.scrollY >= sectionTop &&
-            window.scrollY < sectionTop + sectionHeight
-        ) {
-            currentSection = section.getAttribute("id");
-        }
-    });
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            const sectionBottom = sectionTop + section.offsetHeight;
+
+            if (
+                activationPoint >= sectionTop &&
+                activationPoint < sectionBottom
+            ) {
+                currentSection = section.getAttribute("id");
+            }
+        });
+    }
 
     navLinks.forEach(link => {
         link.classList.remove("active");
@@ -215,7 +227,15 @@ function setupContactForm() {
 
 function setupNavLinks() {
     navLinks.forEach(link => {
-        link.addEventListener("click", closeMobileMenu);
+        link.addEventListener("click", function() {
+            navLinks.forEach(navLink => {
+                navLink.classList.remove("active");
+            });
+
+            this.classList.add("active");
+
+            closeMobileMenu();
+        });
     });
 }
 
